@@ -663,9 +663,11 @@ function Footer() {
         {/* Quote */}
         <div className="mb-12 text-center">
           <p className="text-xl font-bold italic sm:text-2xl" style={{ fontFamily: "var(--font-heading)", color: "var(--text-secondary)" }}>
-            &quot;GreenChain is not a startup. It is infrastructure.&quot;
+            &quot;Make sustainable farming and climate responsibility economically inevitable.&quot;
           </p>
-          <p className="mt-2 text-sm" style={{ color: "var(--text-muted)" }}>Build it like infrastructure. Launch it like a startup.</p>
+          <p className="mt-2 text-sm font-semibold tracking-wider uppercase" style={{ color: "var(--text-muted)" }}>
+            INR First <span className="mx-2 text-emerald-500/50">•</span> Farmer First <span className="mx-2 text-emerald-500/50">•</span> Blockchain as Proof
+          </p>
         </div>
 
         <div className="grid gap-10 sm:grid-cols-4">
