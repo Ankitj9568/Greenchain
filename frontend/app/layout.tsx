@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from "./components/ThemeProvider";
+import Preloader from "./components/Preloader";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -33,6 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="antialiased">
+        <Preloader />
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>

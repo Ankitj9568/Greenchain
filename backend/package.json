@@ -1,0 +1,17 @@
+{
+  "name": "greenchain-backend",
+  "version": "1.0.0",
+  "description": "GreenChain backend service — carbon credit API with blockchain integration",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "test": "node tests/testBlockchain.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.3.1",
+    "ethers": "^6.16.0",
+    "express": "^4.18.2"
+  }
+}
