@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import { useTheme } from "./components/ThemeProvider";
 import {
@@ -25,6 +25,11 @@ import {
   Sun,
   Moon,
   Monitor,
+  MapPin,
+  Play,
+  CheckCircle2,
+  Activity,
+  Cpu
 } from "lucide-react";
 
 /* ═══════════════════════════════════════════════
@@ -89,7 +94,7 @@ function Navbar() {
 
         {/* Desktop links */}
         <div className="hidden items-center gap-8 md:flex">
-          {["Mission", "How It Works", "Platform", "Market"].map((link) => (
+          {["How It Works", "Live Demo", "Why Prana", "Market"].map((link) => (
             <a
               key={link}
               href={`#${link.toLowerCase().replace(/ /g, "-")}`}
@@ -112,7 +117,7 @@ function Navbar() {
             Sign In
           </a>
           <a
-            href="#auth"
+            href="#live-demo"
             className="rounded-full bg-gradient-to-r from-emerald-600 to-emerald-500 px-5 py-2 text-sm font-semibold text-white shadow-lg shadow-emerald-600/20 hover:shadow-emerald-500/40 hover:brightness-110 transition-all"
           >
             Get Started
@@ -132,7 +137,7 @@ function Navbar() {
       {open && (
         <div className="px-5 pb-6 pt-4 md:hidden" style={{ background: "var(--bg-nav-mobile)", borderTop: "1px solid var(--border-subtle)" }}>
           <div className="flex flex-col gap-4">
-            {["Mission", "How It Works", "Platform", "Market"].map((link) => (
+            {["How It Works", "Live Demo", "Why Prana", "Market"].map((link) => (
               <a
                 key={link}
                 href={`#${link.toLowerCase().replace(/ /g, "-")}`}
@@ -151,7 +156,7 @@ function Navbar() {
               >
                 Sign In
               </a>
-              <a href="#auth" className="flex-1 rounded-full bg-emerald-600 py-2.5 text-center text-sm font-semibold text-white">Get Started</a>
+              <a href="#live-demo" className="flex-1 rounded-full bg-emerald-600 py-2.5 text-center text-sm font-semibold text-white">Get Started</a>
             </div>
           </div>
         </div>
@@ -179,11 +184,10 @@ function Hero() {
           className="mb-6 text-4xl font-extrabold leading-tight tracking-tight sm:text-5xl lg:text-7xl"
           style={{ fontFamily: "var(--font-heading)", animation: "fadeInUp 0.7s ease 0.1s both", color: "var(--text-primary)" }}
         >
-          India&apos;s{" "}
+          AI-Powered Land Intelligence<br />for{" "}
           <span className="bg-gradient-to-r from-emerald-500 via-emerald-400 to-amber-400 bg-clip-text text-transparent" style={{ backgroundSize: "200% 200%", animation: "gradientShift 4s ease infinite" }}>
-            Farmer-First
-          </span>{" "}
-          Carbon Credit Platform
+            Carbon & Climate Value
+          </span>
         </h1>
 
         {/* Subheadline */}
@@ -191,9 +195,7 @@ function Hero() {
           className="mx-auto mb-10 max-w-2xl text-lg leading-relaxed sm:text-xl"
           style={{ color: "var(--text-secondary)", animation: "fadeInUp 0.7s ease 0.2s both" }}
         >
-          Connecting 125 million smallholder farmers to the global carbon economy.
-          Real land. Real crops. Real proof. INR-native settlement.
-          Blockchain as proof only.
+          Convert satellite data into sustainability insights, carbon credits, and real income.
         </p>
 
         {/* CTA buttons */}
@@ -201,15 +203,15 @@ function Hero() {
           className="flex flex-col items-center gap-4 sm:flex-row sm:justify-center"
           style={{ animation: "fadeInUp 0.7s ease 0.3s both" }}
         >
-          <a href="#auth" className="group flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-600 to-emerald-500 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-emerald-600/25 hover:shadow-emerald-500/40 transition-all hover:brightness-110">
-            <Sprout size={18} /> I&apos;m a Farmer <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+          <a href="#live-demo" className="group flex items-center gap-2 rounded-full bg-gradient-to-r from-emerald-600 to-emerald-500 px-7 py-3.5 text-base font-semibold text-white shadow-lg shadow-emerald-600/25 hover:shadow-emerald-500/40 transition-all hover:brightness-110">
+            <Play size={18} /> Run Live Demo <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
           </a>
           <a
-            href="#auth"
+            href="#how-it-works"
             className="group flex items-center gap-2 rounded-full px-7 py-3.5 text-base font-semibold transition-all hover:border-emerald-500/50"
             style={{ border: "1px solid var(--border)", color: "var(--text-primary)", background: "var(--bg-card-subtle)" }}
           >
-            <Building2 size={18} /> I&apos;m a Corporate <ChevronRight size={16} className="transition-transform group-hover:translate-x-1" />
+            How it works <ChevronRight size={16} className="transition-transform group-hover:translate-x-1" />
           </a>
         </div>
 
@@ -217,9 +219,9 @@ function Hero() {
         <div className="mt-16 grid grid-cols-2 gap-6 sm:grid-cols-4" style={{ animation: "fadeInUp 0.7s ease 0.45s both" }}>
           {[
             { value: "38.4%", label: "Carbon Market CAGR", icon: <TrendingUp size={16} className="text-emerald-500" /> },
-            { value: "740+", label: "CCTS Entities", icon: <Building2 size={16} className="text-amber-500" /> },
-            { value: "₹0", label: "Prototype Cost", icon: <IndianRupee size={16} className="text-emerald-500" /> },
-            { value: "12–18mo", label: "First-Mover Window", icon: <Zap size={16} className="text-amber-500" /> },
+            { value: "AI + NDVI", label: "Satellite Analysis", icon: <Satellite size={16} className="text-amber-500" /> },
+            { value: "₹ INR", label: "Direct Farmer Value", icon: <IndianRupee size={16} className="text-emerald-500" /> },
+            { value: "Instant", label: "Verification Proof", icon: <Zap size={16} className="text-amber-500" /> },
           ].map((stat) => (
             <div
               key={stat.label}
@@ -240,56 +242,65 @@ function Hero() {
 }
 
 /* ═══════════════════════════════════════════════
-   MISSION
+   HOW IT WORKS
    ═══════════════════════════════════════════════ */
-function Mission() {
-  return (
-    <section id="mission" className="relative py-24 sm:py-32">
-      <div className="pointer-events-none absolute inset-0" style={{ background: `linear-gradient(to bottom, transparent, var(--gradient-hero), transparent)` }} />
-      <div className="relative mx-auto max-w-4xl px-5 text-center">
-        <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-500">Our Philosophy</p>
-        <h2 className="mb-8 text-3xl font-extrabold leading-snug sm:text-4xl lg:text-5xl" style={{ fontFamily: "var(--font-heading)", color: "var(--text-primary)" }}>
-          INR First → Farmer First →{" "}
-          <span className="text-emerald-600 dark:text-emerald-400">Blockchain as Proof Only</span>
-        </h2>
-        <p className="mx-auto max-w-2xl text-base leading-relaxed sm:text-lg" style={{ color: "var(--text-secondary)" }}>
-          Every carbon credit on GreenChain represents <strong style={{ color: "var(--text-primary)" }}>real land</strong>,{" "}
-          <strong style={{ color: "var(--text-primary)" }}>real crops</strong>,{" "}
-          <strong style={{ color: "var(--text-primary)" }}>real proof</strong>, and a{" "}
-          <strong style={{ color: "var(--text-primary)" }}>real farmer</strong>. We use satellite-verified MRV, NGO-audited
-          ground truth, and COP-compliant audit trails. Blockchain is used only as a tamper-proof
-          certificate registry — never as live application logic or currency.
-        </p>
+function HowItWorks() {
+  const steps = [
+    {
+      icon: <MapPin size={28} />,
+      title: "Select your land on map",
+      desc: "Farmers easily outline their plot or pin their location using our mobile-friendly interface.",
+    },
+    {
+      icon: <Satellite size={28} />,
+      title: "AI analyzes satellite data",
+      desc: "Our engine fetches multi-spectral Sentinel-2 data to calculate historic and current NDVI indexes.",
+    },
+    {
+      icon: <Cpu size={28} />,
+      title: "Get sustainability score",
+      desc: "Vegetation health, soil trends, and weather patterns are synthesized into a unified Trust Score.",
+    },
+    {
+      icon: <IndianRupee size={28} />,
+      title: "Earn carbon value in INR",
+      desc: "Verified sustainable practices are minted as carbon credits and sold to corporates. Farmers paid directly.",
+    },
+  ];
 
-        {/* Philosophy pillars */}
-        <div className="mt-14 grid gap-5 sm:grid-cols-3">
-          {[
-            {
-              icon: <IndianRupee size={24} />,
-              title: "INR-Native Settlement",
-              desc: "Farmers always receive INR via UPI/NEFT. No crypto exposure, no FX risk. Platform absorbs conversion.",
-            },
-            {
-              icon: <Shield size={24} />,
-              title: "COP-Grade Audit Trail",
-              desc: "SHA-256 hash-chained immutable logs. Every credit traces from land → crop → MRV → issuance.",
-            },
-            {
-              icon: <Satellite size={24} />,
-              title: "Satellite-Verified MRV",
-              desc: "Sentinel-2 NDVI via Google Earth Engine. IPCC Tier-2 methodology. No guesswork, only science.",
-            },
-          ].map((p) => (
-            <div
-              key={p.title}
-              className="group rounded-2xl p-7 text-left transition-all card-shadow hover:border-emerald-500/20"
-              style={{ background: "var(--bg-card-subtle)", border: "1px solid var(--border-subtle)" }}
-            >
-              <div className="mb-4 flex h-11 w-11 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-500/20 transition-colors">
-                {p.icon}
+  return (
+    <section id="how-it-works" className="relative py-24 sm:py-32">
+      <div className="pointer-events-none absolute inset-0" style={{ background: `linear-gradient(to bottom, transparent, var(--gradient-hero), transparent)` }} />
+      <div className="relative mx-auto max-w-6xl px-5">
+        <div className="mb-14 xl:text-center">
+          <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-500">Core Pipeline</p>
+          <h2 className="text-3xl font-extrabold sm:text-4xl lg:text-5xl" style={{ fontFamily: "var(--font-heading)", color: "var(--text-primary)" }}>
+            Land → Intelligence → Value
+          </h2>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-4 relative">
+          {/* Timeline connecting line (hidden on mobile) */}
+          <div className="hidden md:block absolute top-[52px] left-[10%] right-[10%] h-[2px] bg-gradient-to-r from-emerald-500/10 via-emerald-500/50 to-emerald-500/10"></div>
+
+          {steps.map((s, i) => (
+            <div key={s.title} className="relative mt-8 md:mt-0 px-2 text-center group">
+              <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500/20 to-transparent p-[1px] transition-transform group-hover:scale-105">
+                <div className="flex h-full w-full items-center justify-center rounded-2xl backdrop-blur-md" style={{ background: "var(--bg-card)", border: "1px solid var(--border-subtle)" }}>
+                   <div className="text-emerald-600 dark:text-emerald-400">
+                     {s.icon}
+                   </div>
+                </div>
               </div>
-              <h3 className="mb-2 text-base font-bold" style={{ fontFamily: "var(--font-heading)", color: "var(--text-primary)" }}>{p.title}</h3>
-              <p className="text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>{p.desc}</p>
+              <div className="absolute top-[28px] left-1/2 -translate-x-1/2 -translate-y-[60px] flex h-8 w-8 items-center justify-center rounded-full bg-emerald-600 text-sm font-bold text-white shadow-[0_0_15px_rgba(16,185,129,0.5)] z-10">
+                {i + 1}
+              </div>
+              <h3 className="mb-3 text-lg font-bold" style={{ fontFamily: "var(--font-heading)", color: "var(--text-primary)" }}>
+                {s.title}
+              </h3>
+              <p className="text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>
+                {s.desc}
+              </p>
             </div>
           ))}
         </div>
@@ -299,177 +310,209 @@ function Mission() {
 }
 
 /* ═══════════════════════════════════════════════
-   HOW IT WORKS
+   LIVE DEMO PREVIEW (MOCK)
    ═══════════════════════════════════════════════ */
-function HowItWorks() {
-  const roles = [
-    {
-      icon: <Sprout size={28} />,
-      role: "Farmer",
-      color: "emerald",
-      steps: [
-        "Register with phone OTP + KYC",
-        "Draw land plot polygon on map",
-        "Upload geo-tagged crop proof",
-        "Receive INR payment via UPI",
-      ],
-    },
-    {
-      icon: <Building2 size={28} />,
-      role: "Corporate",
-      color: "blue",
-      steps: [
-        "Register company + GSTIN",
-        "Browse credits by vintage & state",
-        "Purchase verified credits via Razorpay",
-        "Retire credits for BRSR ESG dashboard",
-      ],
-    },
-    {
-      icon: <HandHeart size={28} />,
-      role: "NGO Partner",
-      color: "amber",
-      steps: [
-        "Onboard as verification partner",
-        "Review geo-proofs & field visits",
-        "Verify or dispute farmer plots",
-        "Generate COP-compliant audit reports",
-      ],
-    },
-  ];
+function LiveDemoPreview() {
+  const [step, setStep] = useState(0); // 0 = Map Select, 1 = Loading AI, 2 = Results
+  const [loadingText, setLoadingText] = useState("Initializing neural engine...");
 
-  const colorMap: Record<string, { border: string; icon: string; text: string; dot: string }> = {
-    emerald: { border: "border-emerald-500/20", icon: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400", text: "text-emerald-600 dark:text-emerald-400", dot: "bg-emerald-500" },
-    blue: { border: "border-blue-500/20", icon: "bg-blue-500/10 text-blue-600 dark:text-blue-400", text: "text-blue-600 dark:text-blue-400", dot: "bg-blue-500" },
-    amber: { border: "border-amber-500/20", icon: "bg-amber-500/10 text-amber-600 dark:text-amber-400", text: "text-amber-600 dark:text-amber-400", dot: "bg-amber-500" },
+  const runDemo = () => {
+    setStep(1);
+    const phrases = [
+      "Analyzing multi-spectral satellite data...",
+      "Calculating Normalized Difference Vegetation Index (NDVI)...",
+      "Generating IPCC-compliant carbon estimate...",
+      "Finalizing ecosystem valuation..."
+    ];
+    let i = 0;
+    
+    const interval = setInterval(() => {
+      setLoadingText(phrases[i]);
+      i++;
+      if (i >= phrases.length) {
+        clearInterval(interval);
+        setTimeout(() => setStep(2), 800);
+      }
+    }, 1200);
   };
 
+  const resetDemo = () => setStep(0);
+
   return (
-    <section id="how-it-works" className="py-24 sm:py-32">
-      <div className="mx-auto max-w-6xl px-5">
-        <div className="mb-14 text-center">
-          <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-500">How It Works</p>
-          <h2 className="text-3xl font-extrabold sm:text-4xl" style={{ fontFamily: "var(--font-heading)", color: "var(--text-primary)" }}>
-            Three roles. One ecosystem.
+    <section id="live-demo" className="py-16 sm:py-24">
+      <div className="mx-auto max-w-4xl px-5">
+        <div className="mb-10 text-center">
+          <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-amber-600 dark:text-amber-500">Live Preview</p>
+          <h2 className="mb-4 text-3xl font-extrabold sm:text-4xl" style={{ fontFamily: "var(--font-heading)", color: "var(--text-primary)" }}>
+            See the Engine in Action
           </h2>
+          <p className="mx-auto max-w-xl text-base" style={{ color: "var(--text-muted)" }}>
+            Experience our MVP logic. Select a dummy land plot and watch our AI convert satellite imagery into financial carbon value.
+          </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
-          {roles.map((r) => {
-            const c = colorMap[r.color];
-            return (
-              <div
-                key={r.role}
-                className={`rounded-2xl ${c.border} p-7 card-shadow`}
-                style={{ background: "var(--bg-card-subtle)", border: "1px solid var(--border-subtle)" }}
-              >
-                <div className={`mb-5 flex h-12 w-12 items-center justify-center rounded-xl ${c.icon}`}>
-                  {r.icon}
+        {/* Demo Window */}
+        <div className="overflow-hidden rounded-2xl shadow-2xl backdrop-blur-xl card-shadow" style={{ background: "var(--bg-card-subtle)", border: "1px solid var(--border)" }}>
+          
+          {/* Header bar mimicking an app/browser */}
+          <div className="flex items-center gap-2 px-4 py-3" style={{ background: "var(--bg-card)", borderBottom: "1px solid var(--border-subtle)" }}>
+            <div className="h-3 w-3 rounded-full bg-rose-500/80"></div>
+            <div className="h-3 w-3 rounded-full bg-amber-500/80"></div>
+            <div className="h-3 w-3 rounded-full bg-emerald-500/80"></div>
+            <span className="ml-4 text-xs font-mono font-medium opacity-50 tracking-wider">prana.greenchain.io/engine</span>
+          </div>
+
+          <div className="relative h-[400px] w-full p-6 flex flex-col items-center justify-center">
+
+            {/* STATE 0: Map Select */}
+            {step === 0 && (
+              <div className="flex h-full w-full flex-col items-center justify-center text-center animate-fade-in">
+                {/* CSS Map Mockup */}
+                <div className="relative mb-8 h-48 w-full max-w-md overflow-hidden rounded-xl bg-emerald-900/10" style={{ border: "1px dashed var(--border)"}}>
+                   {/* Abstract map lines */}
+                   <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'radial-gradient(circle at 50% 50%, var(--text-primary) 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
+                   <div className="absolute top-1/2 left-1/2 h-24 w-32 -translate-x-1/2 -translate-y-1/2 rounded-lg border-2 border-emerald-500 bg-emerald-500/20 backdrop-blur-sm flex items-center justify-center shadow-[0_0_20px_rgba(16,185,129,0.3)]">
+                     <MapPin className="text-emerald-500 animate-bounce" size={24}/>
+                   </div>
                 </div>
-                <h3 className={`mb-5 text-lg font-bold ${c.text}`} style={{ fontFamily: "var(--font-heading)" }}>
-                  {r.role}
-                </h3>
-                <ol className="space-y-4">
-                  {r.steps.map((step, i) => (
-                    <li key={i} className="flex items-start gap-3">
-                      <span className={`mt-1.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[10px] font-bold text-white ${c.dot}`}>
-                        {i + 1}
-                      </span>
-                      <span className="text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>{step}</span>
-                    </li>
-                  ))}
-                </ol>
+                <h3 className="mb-2 text-xl font-bold" style={{ color: "var(--text-primary)" }}>Plot 42 - Maharashtra</h3>
+                <p className="mb-6 text-sm" style={{ color: "var(--text-muted)" }}>Total Area: 2.4 Hectares • Crop: Sugarcane</p>
+                <button onClick={runDemo} className="flex items-center gap-2 rounded-full bg-emerald-600 px-6 py-3 text-sm font-bold text-white shadow-lg hover:bg-emerald-500 transition-colors">
+                  <Activity size={18} /> Analyze Satellite Data
+                </button>
               </div>
-            );
-          })}
+            )}
+
+            {/* STATE 1: Loading / AI inference */}
+            {step === 1 && (
+              <div className="flex flex-col items-center justify-center text-center w-full h-full animate-pulse">
+                {/* Glowing orb scanner */}
+                <div className="relative mb-10 h-32 w-32">
+                  <div className="absolute inset-0 rounded-full border-t-2 border-emerald-500 animate-spin"></div>
+                  <div className="absolute inset-2 rounded-full border-r-2 border-amber-500 animate-[spin_2s_reverse_infinite]"></div>
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Satellite className="text-emerald-500" size={32} />
+                  </div>
+                  {/* Scan line effect */}
+                  <div className="absolute top-0 left-0 right-0 h-[2px] bg-emerald-400 shadow-[0_0_10px_#34d399] animate-[scan_1.5s_ease-in-out_infinite]"></div>
+                </div>
+                <h3 className="text-lg font-mono font-bold tracking-tight text-emerald-500 dark:text-emerald-400">{loadingText}</h3>
+              </div>
+            )}
+
+            {/* STATE 2: Output Dashboard */}
+            {step === 2 && (
+              <div className="w-full h-full flex flex-col justify-center animate-fade-in">
+                <div className="mb-6 flex items-center justify-between">
+                  <h3 className="text-2xl font-extrabold" style={{ fontFamily: "var(--font-heading)", color: "var(--text-primary)" }}>Analysis Complete</h3>
+                  <span className="flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-bold text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                    <CheckCircle2 size={14}/> Verified
+                  </span>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 h-full">
+                  <div className="flex flex-col justify-center rounded-xl p-5" style={{ background: "var(--bg-card-subtle4)", border: "1px solid var(--border-subtle)" }}>
+                    <p className="mb-1 text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>Sustainability Score</p>
+                    <p className="text-4xl font-black text-amber-500">78<span className="text-xl text-amber-500/50">/100</span></p>
+                    <p className="mt-2 text-[10px]" style={{ color: "var(--text-muted)" }}>High vegetation density (NDVI: 0.65)</p>
+                  </div>
+                  <div className="flex flex-col justify-center rounded-xl p-5" style={{ background: "var(--bg-card-subtle4)", border: "1px solid var(--border-subtle)" }}>
+                    <p className="mb-1 text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>Carbon Credits</p>
+                    <p className="text-4xl font-black text-blue-500">2.4<span className="text-xl text-blue-500/50"> tons</span></p>
+                    <p className="mt-2 text-[10px]" style={{ color: "var(--text-muted)" }}>CO₂e sequestered annually</p>
+                  </div>
+                  <div className="flex flex-col justify-center rounded-xl p-5 border border-emerald-500/30 bg-emerald-500/5 relative overflow-hidden">
+                    <div className="absolute -right-4 -bottom-4 opacity-10">
+                      <IndianRupee size={100} />
+                    </div>
+                    <p className="mb-1 text-xs font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Estimated Value</p>
+                    <p className="text-4xl font-black text-emerald-600 dark:text-emerald-500">₹3,200</p>
+                    <p className="mt-2 text-[10px] text-emerald-600/70 dark:text-emerald-400/70">Direct matching available.</p>
+                  </div>
+                </div>
+
+                <div className="mt-6 flex justify-end">
+                   <button onClick={resetDemo} className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:opacity-80 transition-opacity">
+                     Reset Demo ↺
+                   </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
+      <style dangerouslySetInnerHTML={{__html:`
+        @keyframes scan {
+          0% { top: 0%; opacity: 0; }
+          10% { opacity: 1; }
+          90% { opacity: 1; }
+          100% { top: 100%; opacity: 0; }
+        }
+        @keyframes fade-in {
+          from { opacity: 0; transform: translateY(10px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in { animation: fade-in 0.5s ease-out forwards; }
+      `}}/>
     </section>
   );
 }
 
 /* ═══════════════════════════════════════════════
-   FEATURES  (Platform pillars)
+   WHY PRANA / GREENCHAIN
    ═══════════════════════════════════════════════ */
-function Features() {
-  const features = [
+function WhyPrana() {
+  const cards = [
     {
-      icon: <TreePine size={22} />,
-      title: "Carbon Registry",
-      desc: "STCC, LTCC, and TPC credit types. Partitioned by vintage year. Fully COP-compliant status lifecycle.",
-      badge: "MVP Core",
+      icon: <Sprout size={32} />,
+      title: "Farmer Income",
+      desc: "By monetizing sustainable practices, farmers unlock a completely new, direct stream of income paid straight to their bank accounts.",
+      color: "emerald"
     },
     {
-      icon: <BarChart3 size={22} />,
-      title: "ESG Compliance Engine",
-      desc: "BRSR Core-aligned dashboards for India's top 250+ listed companies. Automatic Scope 3 value chain reporting.",
-      badge: "MVP Core",
+      icon: <Building2 size={32} />,
+      title: "Corporate ESG",
+      desc: "Companies can seamlessly achieve Net Zero targets and fulfill mandatory BRSR Core reporting using localized, verified credits.",
+      color: "blue"
     },
     {
-      icon: <Shield size={22} />,
-      title: "FRPS Trust Score",
-      desc: "Farmer Reliability & Practice Score. Four tiers: Bronze → Platinum. Governs commissions, marketplace priority, and contract access.",
-      badge: "FRPS",
-    },
-    {
-      icon: <Globe size={22} />,
-      title: "Dual Market Engine",
-      desc: "INR-first domestic marketplace with Forex overflow for international corporate buyers. Farmers always paid in INR.",
-      badge: "Phase 3",
-    },
-    {
-      icon: <Users size={22} />,
-      title: "Contract Farming",
-      desc: "Digital contracts, round-robin allocation, escrow payments, yield-share distribution. Built on the 2018 Act.",
-      badge: "Phase 3",
-    },
-    {
-      icon: <Lock size={22} />,
-      title: "Blockchain Proof",
-      desc: "ERC-1155 credit NFTs on Polygon. On-chain proof for credit_id, CO₂e, and vintage. Off-chain for everything else.",
-      badge: "Phase 3",
-    },
+      icon: <Globe size={32} />,
+      title: "Climate Impact",
+      desc: "Incentivizing scalable agricultural shift provides immediate planetary relief and sequesters millions of tons of CO₂ organically.",
+      color: "amber"
+    }
   ];
 
   return (
-    <section id="platform" className="relative py-24 sm:py-32">
-      <div className="pointer-events-none absolute inset-0" style={{ background: `linear-gradient(to bottom, transparent, var(--gradient-hero), transparent)` }} />
-      <div className="relative mx-auto max-w-6xl px-5">
+    <section id="why-prana" className="py-24 sm:py-32">
+      <div className="mx-auto max-w-6xl px-5">
         <div className="mb-14 text-center">
-          <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-500">Platform</p>
-          <h2 className="mb-4 text-3xl font-extrabold sm:text-4xl" style={{ fontFamily: "var(--font-heading)", color: "var(--text-primary)" }}>
-            9 ecosystem layers. One integrated stack.
+          <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-500">Value Proposition</p>
+          <h2 className="text-3xl font-extrabold sm:text-4xl" style={{ fontFamily: "var(--font-heading)", color: "var(--text-primary)" }}>
+            Why Prana / GreenChain
           </h2>
-          <p className="mx-auto max-w-xl text-base" style={{ color: "var(--text-muted)" }}>
-            No platform in India or globally combines carbon issuance, agri-produce marketplace,
-            ESG engine, contract farming, and INR-native settlement in a single farmer-first stack.
-          </p>
         </div>
 
-        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {features.map((f) => (
+        <div className="grid gap-6 md:grid-cols-3">
+          {cards.map((c) => (
             <div
-              key={f.title}
-              className="group relative rounded-2xl p-7 transition-all hover:border-emerald-500/20 card-shadow"
+              key={c.title}
+              className="group relative rounded-2xl p-8 transition-transform hover:-translate-y-1 card-shadow"
               style={{ background: "var(--bg-card-subtle)", border: "1px solid var(--border-subtle)" }}
             >
-              <div className="mb-4 flex items-center justify-between">
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-500/20 transition-colors">
-                  {f.icon}
-                </div>
-                <span className={`rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider
-                  ${f.badge === "MVP Core" ? "border border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400" :
-                    f.badge === "FRPS" ? "border border-amber-500/30 bg-amber-500/10 text-amber-600 dark:text-amber-400" :
-                      "border bg-transparent text-[var(--text-muted)]"}`}
-                  style={f.badge !== "MVP Core" && f.badge !== "FRPS" ? { borderColor: "var(--border)" } : undefined}
-                >
-                  {f.badge}
-                </span>
+              <div className={`mb-6 inline-flex p-4 rounded-xl ${
+                c.color === 'emerald' ? 'bg-emerald-500/10 text-emerald-500' : 
+                c.color === 'blue' ? 'bg-blue-500/10 text-blue-500' : 
+                'bg-amber-500/10 text-amber-500'
+              }`}>
+                {c.icon}
               </div>
-              <h3 className="mb-2 text-base font-bold" style={{ fontFamily: "var(--font-heading)", color: "var(--text-primary)" }}>
-                {f.title}
+              <h3 className="mb-3 text-2xl font-bold" style={{ fontFamily: "var(--font-heading)", color: "var(--text-primary)" }}>
+                {c.title}
               </h3>
-              <p className="text-sm leading-relaxed" style={{ color: "var(--text-muted)" }}>{f.desc}</p>
+              <p className="text-base leading-relaxed" style={{ color: "var(--text-muted)" }}>
+                {c.desc}
+              </p>
             </div>
           ))}
         </div>
@@ -486,16 +529,17 @@ function MarketSection() {
     { label: "India Voluntary Carbon Market (2030)", value: "$1.16 Bn", cagr: "38.4% CAGR" },
     { label: "CCTS-Obligated Industrial Entities", value: "740", cagr: "Binding targets" },
     { label: "BRSR Core Mandatory Companies (FY25-26)", value: "250+", cagr: "Expanding to 500+" },
-    { label: "Approved Agri Carbon Methodologies", value: "8", cagr: "March 2025" },
+    { label: "Approved Agri Carbon Methodologies", value: "8", cagr: "March 2026" },
   ];
 
   return (
-    <section id="market" className="py-24 sm:py-32">
-      <div className="mx-auto max-w-5xl px-5">
+    <section id="market" className="py-24 sm:py-32 relative">
+      <div className="pointer-events-none absolute inset-0" style={{ background: `linear-gradient(to top, transparent, var(--gradient-hero), transparent)` }} />
+      <div className="relative mx-auto max-w-5xl px-5">
         <div className="mb-14 text-center">
           <p className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-emerald-600 dark:text-emerald-500">Market Opportunity</p>
           <h2 className="mb-4 text-3xl font-extrabold sm:text-4xl" style={{ fontFamily: "var(--font-heading)", color: "var(--text-primary)" }}>
-            The most favourable entry window in India&apos;s history.
+            The most favourable entry window.
           </h2>
           <p className="mx-auto max-w-xl text-base" style={{ color: "var(--text-muted)" }}>
             CCTS compliance started 2025. BRSR Core is mandatory this financial year.
@@ -524,18 +568,6 @@ function MarketSection() {
               </div>
             </div>
           ))}
-        </div>
-
-        {/* Quote */}
-        <div className="mt-12 rounded-2xl p-8 text-center" style={{ background: "var(--quote-bg)", border: `1px solid var(--quote-border)` }}>
-          <p className="text-base italic leading-relaxed" style={{ color: "var(--text-secondary)" }}>
-            &quot;GreenChain enters when infrastructure is nascent but regulatory demand is just becoming
-            mandatory. This is the textbook optimal entry point — before incumbents form, after the
-            regulation is clear.&quot;
-          </p>
-          <p className="mt-3 text-xs font-semibold uppercase tracking-wider text-amber-600 dark:text-amber-500">
-            — Feasibility Analysis, March 2026
-          </p>
         </div>
       </div>
     </section>
@@ -660,69 +692,19 @@ function Footer() {
   return (
     <footer style={{ background: "var(--bg-page)", borderTop: "1px solid var(--border-subtle)" }}>
       <div className="mx-auto max-w-6xl px-5 py-16">
-        {/* Quote */}
         <div className="mb-12 text-center">
           <p className="text-xl font-bold italic sm:text-2xl" style={{ fontFamily: "var(--font-heading)", color: "var(--text-secondary)" }}>
             &quot;Make sustainable farming and climate responsibility economically inevitable.&quot;
           </p>
           <p className="mt-2 text-sm font-semibold tracking-wider uppercase" style={{ color: "var(--text-muted)" }}>
-            INR First <span className="mx-2 text-emerald-500/50">•</span> Farmer First <span className="mx-2 text-emerald-500/50">•</span> Blockchain as Proof
+            INR First <span className="mx-2 text-emerald-500/50">•</span> Farmer First <span className="mx-2 text-emerald-500/50">•</span> AI Verified
           </p>
-        </div>
-
-        <div className="grid gap-10 sm:grid-cols-4">
-          {/* Brand */}
-          <div className="sm:col-span-1">
-            <div className="mb-4 flex items-center gap-2">
-              <Image src="/logo.png" alt="GreenChain Logo" width={32} height={32} className="rounded-lg" />
-              <span className="text-base font-bold" style={{ fontFamily: "var(--font-heading)" }}>
-                <span className="text-emerald-600 dark:text-emerald-400">Green</span>
-                <span style={{ color: "var(--text-primary)" }}>Chain</span>
-              </span>
-            </div>
-            <p className="text-xs leading-relaxed" style={{ color: "var(--text-muted)" }}>
-              National Digital Climate &amp; Rural Livelihood Infrastructure
-            </p>
-          </div>
-
-          {/* Platform */}
-          <div>
-            <h4 className="mb-4 text-xs font-bold uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>Platform</h4>
-            <ul className="space-y-2.5 text-sm" style={{ color: "var(--text-muted)" }}>
-              <li><a href="#mission" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Mission</a></li>
-              <li><a href="#how-it-works" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">How It Works</a></li>
-              <li><a href="#platform" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Ecosystem</a></li>
-              <li><a href="#market" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Market</a></li>
-            </ul>
-          </div>
-
-          {/* For */}
-          <div>
-            <h4 className="mb-4 text-xs font-bold uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>For</h4>
-            <ul className="space-y-2.5 text-sm" style={{ color: "var(--text-muted)" }}>
-              <li><a href="#auth" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Farmers</a></li>
-              <li><a href="#auth" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Corporates</a></li>
-              <li><a href="#auth" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">NGO Partners</a></li>
-              <li><a href="#auth" className="hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors">Donors</a></li>
-            </ul>
-          </div>
-
-          {/* Compliance */}
-          <div>
-            <h4 className="mb-4 text-xs font-bold uppercase tracking-wider" style={{ color: "var(--text-muted)" }}>Compliance</h4>
-            <ul className="space-y-2.5 text-sm" style={{ color: "var(--text-muted)" }}>
-              <li>CCTS Aligned</li>
-              <li>BRSR Core Ready</li>
-              <li>DPDP Act 2023</li>
-              <li>COP Compliant</li>
-            </ul>
-          </div>
         </div>
 
         {/* Bottom bar */}
         <div className="mt-12 flex flex-col items-center justify-between gap-4 pt-8 sm:flex-row" style={{ borderTop: "1px solid var(--border-subtle)" }}>
           <p className="text-xs" style={{ color: "var(--text-faint)" }}>
-            © 2026 GreenChain · PRANA · Version 2.0 · Confidential
+            © 2026 GreenChain · PRANA · Phase 0 MVP · Confidential
           </p>
           <div className="flex gap-4 text-xs" style={{ color: "var(--text-faint)" }}>
             <a href="#" className="hover:text-emerald-600 dark:hover:text-emerald-400">Privacy</a>
@@ -744,9 +726,9 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
-        <Mission />
         <HowItWorks />
-        <Features />
+        <LiveDemoPreview />
+        <WhyPrana />
         <MarketSection />
         <AuthSection />
       </main>
