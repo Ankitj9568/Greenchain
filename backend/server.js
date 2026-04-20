@@ -5,6 +5,7 @@ const path = require("path");
 
 dotenv.config({ path: path.resolve(__dirname, ".env") });
 
+const analyzeController = require("./controllers/analyzeController");
 const creditController = require("./controllers/carbonCreditController");
 
 const app = express();
@@ -21,13 +22,24 @@ app.use((req, _res, next) => {
 });
 
 // ── Routes ───────────────────────────────────────────────────
+
+// Analysis engine (no blockchain required)
+app.post("/api/analyze-land", analyzeController.analyzeLand);
+
+// Blockchain credit routes
 app.post("/api/credits", creditController.addCredit);
 app.get("/api/credits/:tokenId", creditController.getCredit);
 app.post("/api/credits/:tokenId/verify", creditController.verifyCredit);
 
 // Health check
 app.get("/api/health", (_req, res) => {
-  res.json({ status: "ok", service: "greenchain-backend", timestamp: new Date().toISOString() });
+  const blockchain = require("./services/blockchainService");
+  res.json({
+    status: "ok",
+    service: "greenchain-backend",
+    blockchain: blockchain.isConfigured ? "connected" : "not configured",
+    timestamp: new Date().toISOString(),
+  });
 });
 
 // ── 404 handler ──────────────────────────────────────────────
@@ -44,5 +56,6 @@ app.use((err, _req, res, _next) => {
 // ── Start ────────────────────────────────────────────────────
 app.listen(PORT, () => {
   console.log(`\n  🌿 GreenChain Backend running on http://localhost:${PORT}`);
-  console.log(`  📡 Health check: http://localhost:${PORT}/api/health\n`);
+  console.log(`  📡 Health check: http://localhost:${PORT}/api/health`);
+  console.log(`  🔬 Analyze API:  POST http://localhost:${PORT}/api/analyze-land\n`);
 });
