@@ -27,6 +27,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
     /* Read stored preference on mount */
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setMounted(true);
         const stored = localStorage.getItem("gc-theme") as Theme | null;
         if (stored && ["light", "dark", "system"].includes(stored)) {

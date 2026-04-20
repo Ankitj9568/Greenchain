@@ -9,15 +9,10 @@ const RPC_URL = process.env.AMOY_RPC_URL;
 const PRIVATE_KEY = process.env.PRIVATE_KEY;
 const CONTRACT_ADDRESS = process.env.CONTRACT_ADDRESS;
 
-if (!RPC_URL || !PRIVATE_KEY || !CONTRACT_ADDRESS) {
-  throw new Error(
-    "Missing required env vars: AMOY_RPC_URL, PRIVATE_KEY, CONTRACT_ADDRESS. " +
-    "Copy .env.example to .env and fill in your values."
-  );
-}
-
-const provider = new ethers.JsonRpcProvider(RPC_URL);
-const wallet = new ethers.Wallet(PRIVATE_KEY, provider);
+let provider = null;
+let wallet = null;
+let contract = null;
+let isConfigured = false;
 
 const abi = [
   "function mintCredit(address to, uint256 tokenId, string memory creditId, bytes32 dataHash)",
@@ -27,7 +22,19 @@ const abi = [
   "function balanceOf(address account, uint256 id) view returns (uint256)"
 ];
 
-const contract = new ethers.Contract(CONTRACT_ADDRESS, abi, wallet);
+try {
+  if (!RPC_URL || !PRIVATE_KEY || !CONTRACT_ADDRESS) {
+    throw new Error("Missing env vars: AMOY_RPC_URL, PRIVATE_KEY, CONTRACT_ADDRESS");
+  }
+  provider = new ethers.JsonRpcProvider(RPC_URL);
+  wallet = new ethers.Wallet(PRIVATE_KEY, provider);
+  contract = new ethers.Contract(CONTRACT_ADDRESS, abi, wallet);
+  isConfigured = true;
+  console.log("  ✅ Blockchain service configured successfully");
+} catch (err) {
+  console.warn(`  ⚠️  Blockchain not configured: ${err.message}`);
+  console.warn("  ⚠️  Analyze API will work, but minting is disabled.");
+}
 
 /**
  * Generate a collision-resistant tokenId using keccak256 hash
@@ -46,6 +53,9 @@ function generateTokenId(creditId) {
  * @returns {Object} - { txHash, tokenId, creditId }
  */
 async function recordCredit(farmerAddress, amount) {
+  if (!isConfigured) {
+    throw new Error("Blockchain not configured. Set AMOY_RPC_URL, PRIVATE_KEY, CONTRACT_ADDRESS in .env");
+  }
   if (!ethers.isAddress(farmerAddress)) {
     throw new Error(`Invalid farmer address: ${farmerAddress}`);
   }
@@ -99,4 +109,5 @@ module.exports = {
   recordCredit,
   getCredit,
   verifyCredit,
+  isConfigured,
 };
